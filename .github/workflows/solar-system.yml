@@ -17,7 +17,7 @@ jobs:
          name: Unit Testing
          services:
            mongo:
-             image: mongo:latest
+             image: mongo:latest 
              ports:
                - 27017:27017
              env:

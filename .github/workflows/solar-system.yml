@@ -63,15 +63,26 @@ jobs:
 
     code-coverage:
         name: Code Coverage
+        container:
+               image: node:18
+        services:
+           mongo:
+             image: mongo:latest 
+             options:
+                 --name mongo 
+             env:
+              MONGO_URI: 'mongodb//localhost:27017/superData'
+              MONGO_USERNAME: non-prod-user
+              MONGO_PASSWORD: non-prod-password
         runs-on: ubuntu-latest
         steps: 
         - name: checkout Repository
           uses: actions/checkout@v4
         
-        - name: Setup NodeJs Version - 18
-          uses: actions/setup-node@v4
-          with:
-            node-version: 18
+        # - name: Setup NodeJs Version - 18
+        #   uses: actions/setup-node@v4
+        #   with:
+        #     node-version: 18
 
         - name: Cache NPM dependencies 
           uses: actions/cache@v3
@@ -149,7 +160,20 @@ jobs:
           push: true
           tags: |
              ${{ vars.DOCKERHUB_USERNAME }}/solar-system:${{ github.sha }}
-             ghcr.io/${{ github.repository_owner }}/solar-system:${{ github.sha }}  
+             ghcr.io/${{ github.repository_owner }}/solar-system:${{ github.sha }} 
+
+          
+
+      
+
+        
+
+          
+
+
+             
+
+  
 
 
 

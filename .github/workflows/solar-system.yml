@@ -166,44 +166,21 @@ jobs:
     dev-deploy:
       needs: docker
       runs-on: ubuntu-latest
-      steps:
-        - name: checkout Repo
-          uses: actions/checkout@v5
 
-        - name: Install Kubectl CLI
+      steps:
+        - name: Checkout Repo
+          uses: actions/checkout@v4
+
+        - name: Setup kubectl
           uses: azure/setup-kubectl@v3
           with:
-            version: 'v1.26.0'
-        - name: Setup Kubeconfig
-          uses: azure/k8s-set-context@v3
-          with:
-            method: kubeconfig
-            kubeconfig: ${{ secrets.KUBECONFIG }}
-            
-        - name: Fetch Kubernetes cluster Details
+              version: 'v1.26.0'
+
+        - name: Create Kubernetes cluster (kind)
+          uses: helm/kind-action@v1
+
+        - name: Deploy to cluster
           run: |
-            kubectl version --short
-            echo --------------------------------
-            kubectl get nodes
-
-
-
-
-
-
-          
-
-      
-
-        
-
-          
-
-
-             
-
-  
-
-
-
-        
+              kubectl get nodes
+              kubectl apply -f k8s/
+              kubectl get pods

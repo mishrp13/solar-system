@@ -186,4 +186,16 @@ jobs:
               kubectl apply -f kubernetes/development/
               kubectl get pods -n development
 
-              
+        - name: Wait for Pods
+          run: |
+             kubectl wait --for=condition=ready pod \
+             --all -n development --timeout=180s
+
+        - name: Port Forward Service
+          run: |
+           kubectl port-forward service/solar-system 3000:3000 -n development &
+           sleep 15
+
+        - name: Integration Testing
+          run: |
+           curl http://127.0.0.1:3000/live -s | jq      

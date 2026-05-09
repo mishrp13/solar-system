@@ -182,5 +182,8 @@ jobs:
         - name: Deploy to cluster
           run: |
               kubectl get nodes
+              kubectl create namespace development --dry-run=client -o yaml | kubectl apply -f -
               kubectl apply -f kubernetes/development/
-              kubectl get pods
+              kubectl get pods -n development
+
+              

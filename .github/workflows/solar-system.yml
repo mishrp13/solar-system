@@ -182,5 +182,5 @@ jobs:
         - name: Deploy to cluster
           run: |
               kubectl get nodes
-              kubectl apply -f k8s/development/
+              kubectl apply -f kubernetes/development/
               kubectl get pods
